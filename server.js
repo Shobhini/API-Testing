@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // Import the Express module
 const express = require('express');
 const app = express();
@@ -30,6 +32,6 @@ app.delete('/users/:id', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

@@ -1,14 +1,14 @@
-require('dotenv').config();
+import'dotenv/config';  
 
 // Import the Express module
-const express = require('express');
+import express, { json } from 'express';
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(json());
 
 // Define a route for GET requests
-app.get('/users', (req, res) => {
+app.get('/users', (_req, res) => {
     res.json({ message: 'Returning list of users' });
 });
 
@@ -29,6 +29,16 @@ app.put('/users/:id', (req, res) => {
 app.delete('/users/:id', (req, res) => {
     const userId = req.params.id;
     res.json({ message: `User with ID ${userId} deleted` });
+});
+
+// some jokes
+app.get('/api/jokes', (_req, res) => {
+    const jokes=[{
+        "id": 1,
+        "title": "Why did the programmer go broke?",
+        "answer": "Because he needed to learn how to stop."
+    }];
+    res.json(jokes);
 });
 
 // Start the server

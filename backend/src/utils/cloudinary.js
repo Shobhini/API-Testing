@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs"
-(async function() {
+
 
     // Configuration
     cloudinary.config({ 
@@ -26,5 +26,6 @@ import fs from "fs"
             return null;
         }
     }
+
     
     export {uploaderCloudinary}

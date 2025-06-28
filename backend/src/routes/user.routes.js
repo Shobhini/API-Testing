@@ -16,7 +16,8 @@ router.route("/register").post(
             name: "coverImage"
         }
     ]),
-    registerUser)
+    registerUser
+)
 
 router.route("/login").post(loginUser)
 

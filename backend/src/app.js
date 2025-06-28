@@ -25,6 +25,15 @@ import userRouter  from './routes/user.routes.js'
 // routes declaration
 app.use("/api/v1/users", userRouter)
 
+// global error handler
+app.use((err, req, res, next) => {
+    console.error(err);
+    
+  res.status(err.statusCode || 500).json({
+    error: err.message || "Internal Server Error"
+  });
+});
+
 // http://localhost:8000/api/v1/users/register
 
 export {app}

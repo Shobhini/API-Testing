@@ -12,19 +12,37 @@ import fs from "fs"
 
     const uploaderCloudinary = async (localFilePath) => {
     try {
-        if (!localFilePath) return null
+        if (!localFilePath) throw new Error("No file path provided to Cloudinary uploader");
+        
+        if (!fs.existsSync(localFilePath)) {
+            throw new Error("Uploaded file not found: " + localFilePath);
+        }
+        console.log("Uploading file at path:", localFilePath);
+        
         //upload the file on cloudinary
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto"
-        })
+        });
         // file has been uploaded successfull
         // console.log("file is uploaded on cloudinary ", response.url);
-        fs.unlinkSync(localFilePath)
+        if(fs.existsSync(localFilePath)) {
+            fs.unlinkSync(localFilePath);
+        }
         return response;
 
     } catch (error) {
-        fs.unlinkSync(localFilePath) // remove the locally saved temporary file as the upload operation got failed
-        return null;
+        // Try to delete the file if it exists, even on error, but ignore ENOENT
+    try {
+      if (localFilePath && fs.existsSync(localFilePath)) {
+        fs.unlinkSync(localFilePath);
+      }
+    } catch (delErr) {
+      if (delErr.code !== "ENOENT") {
+        // Only log if it's not 'file not found'
+        console.error("Error deleting local file:", delErr);
+      }
+    }
+    throw error;
     }
 }
 
